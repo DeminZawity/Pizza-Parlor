@@ -1,5 +1,5 @@
 // main.js
-import {getOrders, addNewOrder} from './orders.js'
+import { getOrders } from "./orders.js";
 
 document.getElementById("app").innerHTML = `
 <h1>Peanut's Pizza Parlor</h1>
@@ -56,8 +56,13 @@ document.getElementById("app").innerHTML = `
 `;
 
 const displayOrders = () => {
-  const orders = getOrders()
-  // Add logic here to put the orders on the DOM
+  const orders = getOrders();
+  for (let order of orders) {
+    if (order.id > 0 || order.id < 999) {
+      let receipt = [order.crust, order.toppings, order.instructions];
+      // // return receipt;
+      document.getElementById("orders").innerHTML = `${receipt}`;
+    }
+  }
 };
-
-displayOrders()
+displayOrders();
