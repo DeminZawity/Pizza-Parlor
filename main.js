@@ -51,18 +51,18 @@ document.getElementById("app").innerHTML = `
     </div>
   </div>
   <h3>Orders</h3>
-  <div id="orders"></div>
+  <div id="orders">
+  </div>
 </div>
 `;
 
 const displayOrders = () => {
   const orders = getOrders();
+  let ReceiptList = [];
   for (let order of orders) {
-    if (order.id > 0 || order.id < 999) {
-      let receipt = [order.crust, order.toppings, order.instructions];
-      // // return receipt;
-      document.getElementById("orders").innerHTML = `${receipt}`;
-    }
+    let receipt = [order.crust, order.toppings, order.instructions];
+    ReceiptList.push(receipt);
   }
+  document.getElementById("orders").innerHTML = `${ReceiptList}`;
 };
 displayOrders();
