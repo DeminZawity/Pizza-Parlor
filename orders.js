@@ -1,4 +1,3 @@
-// orders.js
 const orders = [
   {
     id: 1,
@@ -14,6 +13,22 @@ const orders = [
   },
 ];
 
+const getNewOrderId = () => {
+  let highestOrderId = orders.sort((a, b) => b.id - a.id)[0].id;
+  return highestOrderId + 1;
+};
+
 export const getOrders = () => {
-  return orders;
+  // Add logic here to return a copy of your orders
+  return orders.map((order) => ({ ...order }));
+};
+
+export const addNewOrder = (order) => {
+  console.log("new order", order);
+  const newId = getNewOrderId();
+  order.id = newId;
+  // need to add logic
+  orders.push(order);
+  console.log(orders);
+  document.dispatchEvent(new CustomEvent("stateChanged"));
 };

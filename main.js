@@ -1,5 +1,4 @@
-// main.js
-import { getOrders } from "./orders.js";
+import { getOrders, addNewOrder } from "./orders.js";
 
 document.getElementById("app").innerHTML = `
 <h1>Peanut's Pizza Parlor</h1>
@@ -51,18 +50,58 @@ document.getElementById("app").innerHTML = `
     </div>
   </div>
   <h3>Orders</h3>
-  <div id="orders">
-  </div>
+  <div id="orders"></div>
 </div>
 `;
 
 const displayOrders = () => {
   const orders = getOrders();
-  let ReceiptList = [];
-  for (let order of orders) {
-    let receipt = [order.crust, order.toppings, order.instructions];
-    ReceiptList.push(receipt);
+  let html = "<ul>";
+  for (const order of orders) {
+    html += `<li>
+      <p>Crust: ${order.crust}</p>
+      <p>Toppings: ${order.toppings.join(",")}</p>
+      <p>Special Instructions: ${order.instructions}</p>
+    </li>`;
   }
-  document.getElementById("orders").innerHTML = `${ReceiptList}`;
+  html += "</ul>";
+  // Add logic here to put the orders on the DOM
+  document.getElementById("orders").innerHTML = html;
 };
+
+document.addEventListener("click", (e) => {
+  if (e.target.id === "submitOrder") {
+    console.log("submitting order");
+    // Need logic to get all the values from the form,
+    const crust = document.querySelector("input[name=crust]:checked")?.value;
+    const instructions = document.getElementById("specialInstructions")?.value;
+
+    const toppingsElements = document.querySelectorAll("input[name=toppings]:checked");
+
+    const toppingsArray = [];
+    const toppings = toppingsElements.forEach((toppingElement) => {
+      toppingsArray.push(toppingElement.value);
+    });
+    console.log(toppingsArray);
+
+    // format them into an object and
+    const newOrder = {
+      crust: crust,
+      toppings: toppingsArray,
+      instructions: instructions,
+    };
+
+    console.log(newOrder);
+
+    //add that object to the `orders` array in `orders.js`
+    addNewOrder(newOrder);
+  }
+});
+
+document.addEventListener("stateChanged", (event) => {
+  // One line of code should do it.
+  displayOrders();
+});
+
+//This is called when the page is loaded only
 displayOrders();
